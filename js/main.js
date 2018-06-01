@@ -1,7 +1,7 @@
 'use strict';
 
-const RIGHT_ARROW = 37;
-const LEFT_ARROW = 39;
+const LEFT_ARROW = 37;
+const RIGHT_ARROW = 39;
 
 const app = document.querySelector(`.app`);
 const mainElement = document.querySelector(`.main`);
