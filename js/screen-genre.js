@@ -1,108 +1,111 @@
-import {getElementFromTemplate, getRandomElement, playAgain, changeScreen} from './utils';
-import {resultScreens} from './screen-results';
+import {getElementFromTemplate, changeScreen, updateScreen} from './utils';
+import renderArtistTemplate from './screen-artist';
+import renderHeaderTemplate from './header';
+import renderOverAttempts from './screen-overAttempts';
+import renderOverTime from './screen-overTime';
+import overGameElement from './screen-overGame';
+import {calculatePlayerResult} from './calculate-points';
+import {initialState, levels, results} from './data-game';
+import player from "./player";
 
-const genreScreen = `
-  <section class="main main--level main--level-genre">
-    <a class="play-again play-again__wrap" href="#">
-      <img class="play-again__img" src="/img/melody-logo-ginger.png" alt="logo" width="177" height="76">
-    </a>
-    <svg xmlns="http://www.w3.org/2000/svg" class="timer" viewBox="0 0 780 780">
-      <circle
-        cx="390" cy="390" r="370"
-        class="timer-line"
-        style="filter: url(.#blur); transform: rotate(-90deg) scaleY(-1); transform-origin: center"></circle>
-      <div class="timer-value" xmlns="http://www.w3.org/1999/xhtml">
-        <span class="timer-value-mins">05</span><!--
-        --><span class="timer-value-dots">:</span><!--
-        --><span class="timer-value-secs">00</span>
-      </div>
-    </svg>
-    <div class="main-mistakes">
-      <img class="main-mistake" src="img/wrong-answer.png" width="35" height="49">
-      <img class="main-mistake" src="img/wrong-answer.png" width="35" height="49">
-      <img class="main-mistake" src="img/wrong-answer.png" width="35" height="49">
-    </div>
-    <div class="main-wrap">
-      <h2 class="title">Выберите инди-рок треки</h2>
+export default function renderGenreTemplate(state) {
+  const answersGenre = (item, i) => {
+    return `<div class="genre-answer">
+          <div class="player-wrapper">
+            <div class="player">
+              <audio src = "${item.audio}" ${item.autoplay ? `autoplay` : ``}></audio>
+              <button class="player-control player-control ${item.autoplay ? `player-control--pause` : `player-control--play`}"></button>
+              <div class="player-track">
+                <span class="player-status"></span>
+              </div>
+            </div>
+          </div>
+          <input type="checkbox" name="answer" value="answer-${i}" id="a-${i}" correct-answer="${item.correct}">
+          <label class="genre-answer-check" for="a-${i}"></label>
+        </div>`;
+  };
+
+  const genreScreen =
+    `<div class="main-wrap">
+      <h2 class="title">Выберите ${state.genre} треки</h2>
       <form class="genre">
-        <div class="genre-answer">
-          <div class="player-wrapper">
-            <div class="player">
-              <audio></audio>
-              <button class="player-control player-control--pause"></button>
-              <div class="player-track">
-                <span class="player-status"></span>
-              </div>
-            </div>
-          </div>
-          <input type="checkbox" name="answer" value="answer-1" id="a-1">
-          <label class="genre-answer-check" for="a-1"></label>
-        </div>
-        <div class="genre-answer">
-          <div class="player-wrapper">
-            <div class="player">
-              <audio></audio>
-              <button class="player-control player-control--play"></button>
-              <div class="player-track">
-                <span class="player-status"></span>
-              </div>
-            </div>
-          </div>
-          <input type="checkbox" name="answer" value="answer-1" id="a-2">
-          <label class="genre-answer-check" for="a-2"></label>
-        </div>
-        <div class="genre-answer">
-          <div class="player-wrapper">
-            <div class="player">
-              <audio></audio>
-              <button class="player-control player-control--play"></button>
-              <div class="player-track">
-                <span class="player-status"></span>
-              </div>
-            </div>
-          </div>
-          <input type="checkbox" name="answer" value="answer-1" id="a-3">
-          <label class="genre-answer-check" for="a-3"></label>
-        </div>
-        <div class="genre-answer">
-          <div class="player-wrapper">
-            <div class="player">
-              <audio></audio>
-              <button class="player-control player-control--play"></button>
-              <div class="player-track">
-                <span class="player-status"></span>
-              </div>
-            </div>
-          </div>
-          <input type="checkbox" name="answer" value="answer-1" id="a-4">
-          <label class="genre-answer-check" for="a-4"></label>
-        </div>
+      ${state.answers.map((answer, index) => answersGenre(answer, index)).join(``)}
         <button class="genre-answer-send" type="submit">Ответить</button>
       </form>
     </div>
-  </section>
 `;
 
-const genreScreenElement = getElementFromTemplate(genreScreen);
-const genreAnswerButton = genreScreenElement.querySelector(`.genre-answer-send`);
+  const genreScreenElement = getElementFromTemplate(genreScreen);
 
-genreAnswerButton.disabled = true;
+  const genreAnswerButton = genreScreenElement.querySelector(`.genre-answer-send`);
 
-const inputElements = Array.from(genreScreenElement.querySelectorAll(`.genre-answer input[type="checkbox"]`));
+  genreAnswerButton.disabled = `true`;
 
-inputElements.forEach((input) => {
-  input.addEventListener(`change`, () => {
-    const checkedInput = inputElements.some((it) => it.checked);
+  const inputElements = Array.from(genreScreenElement.querySelectorAll(`.genre-answer input[type="checkbox"]`));
 
-    genreAnswerButton.disabled = !checkedInput;
+  inputElements.forEach((input) => {
+    input.addEventListener(`change`, () => {
+      const checkedInput = inputElements.some((it) => it.checked);
+
+      genreAnswerButton.disabled = !checkedInput;
+    });
   });
-});
-
-playAgain(genreScreenElement);
-
-genreAnswerButton.addEventListener(`click`, () => {
-  changeScreen(getRandomElement(resultScreens));
-});
 
 
-export {genreScreenElement};
+  genreAnswerButton.addEventListener(`click`, (evt) => {
+    evt.preventDefault();
+    initialState.level++;
+
+    let correctAnswer = () => {
+      let currentAnswersGenre = [];
+      let result = ``;
+      [...inputElements].forEach((elem) => {
+        let correct = elem.getAttribute(`correct-answer`);
+        let isCorrect = (correct === `true`);
+        if (elem.checked === true) {
+          currentAnswersGenre.push(isCorrect);
+        }
+      });
+
+      result = currentAnswersGenre.every((el) => {
+        return el === true;
+      });
+      return result;
+    };
+
+    let currentCorrectAnswer = {
+      correct: correctAnswer(),
+      time: 30
+    };
+    results.push(currentCorrectAnswer);
+    if (currentCorrectAnswer.correct === false) {
+      initialState.lives--;
+    }
+
+    if (initialState.lives === 0) {
+      updateScreen(renderHeaderTemplate(initialState));
+      changeScreen(renderOverAttempts());
+    } else if (initialState.time === 0) {
+      updateScreen(renderHeaderTemplate(initialState));
+      changeScreen(renderOverTime());
+    } else if (levels[initialState.level].type === `artist`) {
+      updateScreen(renderHeaderTemplate(initialState));
+      changeScreen(renderArtistTemplate(levels[initialState.level]));
+    } else if (results.length === 10) {
+      updateScreen(renderHeaderTemplate(initialState));
+      changeScreen(overGameElement(calculatePlayerResult()));
+    } else {
+      updateScreen(renderHeaderTemplate(initialState));
+      changeScreen(renderGenreTemplate(levels[initialState.level]));
+    }
+  });
+
+  const playerControlButtons = genreScreenElement.querySelectorAll(`.player-control`);
+
+  [...playerControlButtons].forEach((elem) => {
+    let audio = elem.previousElementSibling;
+    player(elem, audio);
+  });
+  return genreScreenElement;
+
+}

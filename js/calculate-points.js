@@ -1,3 +1,7 @@
+import {initialState, results} from "./data-game";
+import {showResults} from "./show-results";
+import {anotherTotalResultsArr} from "./show-results.test.js";
+
 const NUMBER_ANSWERS = 10;
 const FAST_TIME_ANSWER = 30;
 
@@ -25,4 +29,22 @@ export const calculatePoints = (playerAnswers, leftLives) => {
   });
 
   return points;
+};
+
+export const calculatePlayerResult = () => {
+  initialState.points = calculatePoints(results, initialState.lives);
+  let calculateFastAnswers = (array) => {
+    let count = 0;
+    array.forEach((element) => {
+      if (element.time < FAST_TIME_ANSWER) {
+        count++;
+      }
+    });
+    return count;
+  };
+  let statInfo = showResults(initialState, anotherTotalResultsArr);
+  initialState.fastAnswers = calculateFastAnswers(results);
+  initialState.stat = statInfo;
+
+  return initialState;
 };

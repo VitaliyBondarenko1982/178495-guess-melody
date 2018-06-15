@@ -1,27 +1,32 @@
-import {welcomeScreenElement} from './screen-welcome';
+import {initialState} from './data-game';
 
 export const getElementFromTemplate = (template) => {
   const wrapper = document.createElement(`div`);
-  wrapper.innerHTML = template;
+  wrapper.innerHTML = template.trim();
 
-  return wrapper.children[0];
+  return wrapper;
 };
 
-const mainElement = document.querySelector(`section.main`);
+const mainElement = document.querySelector(`.main`);
 
 export const changeScreen = (screen) => {
-  mainElement.innerHTML = ``;
-  mainElement.appendChild(screen);
-};
-
-export const playAgain = (elem) => {
-  const playAgainButton = elem.querySelector(`.play-again`);
-
-  playAgainButton.addEventListener(`click`, () => {
-    changeScreen(welcomeScreenElement);
+  let collection = screen.children;
+  [...collection].map((element) => {
+    mainElement.appendChild(element);
   });
 };
 
-export const getRandomElement = (arr) => {
-  return arr[Math.floor(Math.random() * arr.length)];
+export const updateScreen = (element) => {
+  mainElement.innerHTML = ``;
+  let collection = element.children;
+  [...collection].map((el) => {
+    mainElement.appendChild(el);
+  });
+};
+
+export const goToStartInitialState = () => {
+  initialState.points = 0;
+  initialState.lives = 3;
+  initialState.time = 300;
+  initialState.level = 0;
 };
