@@ -88,12 +88,12 @@ export default function renderGenreTemplate(state) {
     } else if (initialState.time === 0) {
       updateScreen(renderHeaderTemplate(initialState));
       changeScreen(renderOverTime());
+    } else if (initialState.level === 11) {
+      updateScreen(renderHeaderTemplate(initialState));
+      changeScreen(overGameElement(calculatePlayerResult()));
     } else if (levels[initialState.level].type === `artist`) {
       updateScreen(renderHeaderTemplate(initialState));
       changeScreen(renderArtistTemplate(levels[initialState.level]));
-    } else if (results.length === 10) {
-      updateScreen(renderHeaderTemplate(initialState));
-      changeScreen(overGameElement(calculatePlayerResult()));
     } else {
       updateScreen(renderHeaderTemplate(initialState));
       changeScreen(renderGenreTemplate(levels[initialState.level]));
