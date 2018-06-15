@@ -10,6 +10,16 @@ import player from "./player";
 
 
 export default function renderArtistTemplate(state) {
+  const answersArtist = (item, i) => {
+    return `<div class="main-answer-wrapper" correct-answer="${item.correct}">
+      <input class="main-answer-r" type="radio" id="answer-${i}" name="answer" value="val-${i}"/>
+       <label class="main-answer" for="answer-${i}">
+      <img class="main-answer-preview" src="${item.image}"
+             alt="${item.artist}" width="134" height="134">
+        ${item.artist}
+     </label>
+    </div>`;
+  };
 
   const artistScreen = `<div class="main-wrap">
       <h2 class="title main-title">Кто исполняет эту песню?</h2>
@@ -23,16 +33,7 @@ export default function renderArtistTemplate(state) {
         </div>
       </div>
       <form class="main-list">
-      ${state.answers.map((answer) =>
-    `<div class="main-answer-wrapper" correct-answer="${answer.correct}">
-      <input class="main-answer-r" type="radio" id="answer-1" name="answer" value="val-1"/>
-       <label class="main-answer" for="answer-1">
-      <img class="main-answer-preview" src="${answer.image}"
-             alt="${answer.artist}" width="134" height="134">
-        ${answer.artist}
-     </label>
-     </div>`
-  ).join(``)}
+      ${state.answers.map((answer, index) => answersArtist(answer, index)).join(``)}
       </form>
     </div>`;
   const artistScreenElement = getElementFromTemplate(artistScreen);
