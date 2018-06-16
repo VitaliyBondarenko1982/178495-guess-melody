@@ -1,0 +1,21 @@
+import {getElementFromTemplate, updateScreen, goToStartInitialState} from './utils';
+import welcomeScreenElement from "./screen-welcome";
+
+export default function renderOverAttempts() {
+  const overAttempts = `<section class="main main--result">
+    <section class="logo" title="Угадай мелодию"><h1>Угадай мелодию</h1></section>
+    <h2 class="title">Какая жалость!</h2>
+    <div class="main-stat">У вас закончились все попытки.<br>Ничего, повезёт в следующий раз!</div>
+    <span role="button" tabindex="0" class="main-replay">Попробовать ещё раз</span>
+  </section>`;
+
+  const overAttemptsElement = getElementFromTemplate(overAttempts);
+
+  const replayButton = overAttemptsElement.querySelector(`.main-replay`);
+  replayButton.addEventListener(`click`, () => {
+    updateScreen(welcomeScreenElement());
+    goToStartInitialState();
+  });
+
+  return overAttemptsElement;
+}

@@ -1,31 +1,31 @@
-import {getElementFromTemplate, changeScreen, playAgain} from './utils';
-import {genreScreenElement} from './screen-genre';
+import {getElementFromTemplate, changeScreen, updateScreen} from './utils';
+import renderGenreTemplate from './screen-genre';
+import renderHeaderTemplate from './header';
+import renderOverAttempts from './screen-overAttempts';
+import overGameElement from './screen-overGame';
+import {calculatePlayerResult} from './calculate-points';
+import renderOverTime from './screen-overTime';
+import {initialState, levels, results} from './data-game';
+import player from "./player";
 
-const artistScreen = `
-  <section class="main main--level main--level-artist">
-    <a class="play-again play-again__wrap" href="#">
-      <img class="play-again__img" src="/img/melody-logo-ginger.png" alt="logo" width="177" height="76">
-    </a>
-    <svg xmlns="http://www.w3.org/2000/svg" class="timer" viewBox="0 0 780 780">
-      <circle
-        cx="390" cy="390" r="370"
-        class="timer-line"
-        style="filter: url(.#blur); transform: rotate(-90deg) scaleY(-1); transform-origin: center"></circle>
-      <div class="timer-value" xmlns="http://www.w3.org/1999/xhtml">
-        <span class="timer-value-mins">05</span><!--
-        --><span class="timer-value-dots">:</span><!--
-        --><span class="timer-value-secs">00</span>
-      </div>
-    </svg>
-    <div class="main-mistakes">
-      <img class="main-mistake" src="img/wrong-answer.png" width="35" height="49">
-      <img class="main-mistake" src="img/wrong-answer.png" width="35" height="49">
-    </div>
-    <div class="main-wrap">
+
+export default function renderArtistTemplate(state) {
+  const answersArtist = (item, i) => {
+    return `<div class="main-answer-wrapper" correct-answer="${item.correct}">
+      <input class="main-answer-r" type="radio" id="answer-${i}" name="answer" value="val-${i}"/>
+       <label class="main-answer" for="answer-${i}">
+      <img class="main-answer-preview" src="${item.image}"
+             alt="${item.artist}" width="134" height="134">
+        ${item.artist}
+     </label>
+    </div>`;
+  };
+
+  const artistScreen = `<div class="main-wrap">
       <h2 class="title main-title">Кто исполняет эту песню?</h2>
       <div class="player-wrapper">
         <div class="player">
-          <audio></audio>
+          <audio src="${state.audio}" autoplay></audio>
           <button class="player-control player-control--pause"></button>
           <div class="player-track">
             <span class="player-status"></span>
@@ -33,45 +33,50 @@ const artistScreen = `
         </div>
       </div>
       <form class="main-list">
-        <div class="main-answer-wrapper">
-          <input class="main-answer-r" type="radio" id="answer-1" name="answer" value="val-1"/>
-          <label class="main-answer" for="answer-1">
-            <img class="main-answer-preview" src="http://placehold.it/134x134"
-                 alt="Пелагея" width="134" height="134">
-            Пелагея
-          </label>
-        </div>
-        <div class="main-answer-wrapper">
-          <input class="main-answer-r" type="radio" id="answer-2" name="answer" value="val-2"/>
-          <label class="main-answer" for="answer-2">
-            <img class="main-answer-preview" src="http://placehold.it/134x134"
-                 alt="Краснознаменная дивизия имени моей бабушки" width="134" height="134">
-            Краснознаменная дивизия имени моей бабушки
-          </label>
-        </div>
-        <div class="main-answer-wrapper">
-          <input class="main-answer-r" type="radio" id="answer-3" name="answer" value="val-3"/>
-          <label class="main-answer" for="answer-3">
-            <img class="main-answer-preview" src="http://placehold.it/134x134"
-                 alt="Lorde" width="134" height="134">
-            Lorde
-          </label>
-        </div>
+      ${state.answers.map((answer, index) => answersArtist(answer, index)).join(``)}
       </form>
-    </div>
-  </section>
-`;
+    </div>`;
+  const artistScreenElement = getElementFromTemplate(artistScreen);
+  const answerButtons = artistScreenElement.querySelectorAll(`.main-answer-wrapper`);
 
-const artistScreenElement = getElementFromTemplate(artistScreen);
-const answerButtons = artistScreenElement.querySelectorAll(`.main-answer`);
+  [...answerButtons].forEach((answer) => {
+    answer.addEventListener(`click`, () => {
+      initialState.level++;
 
-playAgain(artistScreenElement);
+      let correctAnswer = answer.getAttribute(`correct-answer`);
+      let isCorrect = (correctAnswer === `true`);
+      let currentCorrectAnswer = {
+        correct: isCorrect,
+        time: 30
+      };
+      results.push(currentCorrectAnswer);
+      if (currentCorrectAnswer.correct === false) {
+        initialState.lives--;
+      }
 
-Array.from(answerButtons).forEach((btn) => {
-  btn.addEventListener(`click`, () => {
-    changeScreen(genreScreenElement);
+      if (initialState.lives === 0) {
+        updateScreen(renderHeaderTemplate(initialState));
+        changeScreen(renderOverAttempts());
+      } else if (initialState.time === 0) {
+        updateScreen(renderHeaderTemplate(initialState));
+        changeScreen(renderOverTime());
+      } else if (initialState.level === 11) {
+        updateScreen(renderHeaderTemplate(initialState));
+        changeScreen(overGameElement(calculatePlayerResult()));
+      } else if (levels[initialState.level].type === `genre`) {
+        updateScreen(renderHeaderTemplate(initialState));
+        changeScreen(renderGenreTemplate(levels[initialState.level]));
+      } else {
+        updateScreen(renderHeaderTemplate(initialState));
+        changeScreen(renderArtistTemplate(levels[initialState.level]));
+      }
+    });
   });
-});
 
+  const audioTrack = artistScreenElement.querySelector(`.player audio`);
+  const playerControlButton = artistScreenElement.querySelector(`.player-control`);
 
-export {artistScreenElement};
+  player(playerControlButton, audioTrack);
+
+  return artistScreenElement;
+}

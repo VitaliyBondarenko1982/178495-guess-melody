@@ -1,8 +1,10 @@
-import {getElementFromTemplate, changeScreen} from './utils';
-import {artistScreenElement} from './screen-artist';
+import {getElementFromTemplate, changeScreen, updateScreen} from './utils';
+import artistScreenElement from './screen-artist';
+import headerElement from "./header";
+import {initialState, levels} from './data-game';
 
-const welcomeScreen = `
-  <section class="main main--welcome">
+export default () => {
+  const welcomeScreen = `<section class="main main--welcome">
     <section class="logo" title="Угадай мелодию"><h1>Угадай мелодию</h1></section>
     <button class="main-play">Начать игру</button>
     <h2 class="title main-title">Правила игры</h2>
@@ -11,14 +13,16 @@ const welcomeScreen = `
       Ошибиться можно 3 раза.<br>
       Удачи!
     </p>
-  </section>
-`;
+  </section>`;
 
-const welcomeScreenElement = getElementFromTemplate(welcomeScreen);
-const mainPlayButton = welcomeScreenElement.querySelector(`.main-play`);
+  const welcomeScreenElement = getElementFromTemplate(welcomeScreen);
+  const mainPlayButton = welcomeScreenElement.querySelector(`.main-play`);
 
-mainPlayButton.addEventListener(`click`, () => {
-  changeScreen(artistScreenElement);
-});
+  mainPlayButton.addEventListener(`click`, () => {
+    initialState.level++;
+    updateScreen(headerElement(initialState));
+    changeScreen(artistScreenElement(levels[initialState.level]));
+  });
 
-export {welcomeScreenElement};
+  return welcomeScreenElement;
+};
