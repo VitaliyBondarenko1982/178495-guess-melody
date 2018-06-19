@@ -13,11 +13,26 @@ export default function renderGenreScreen(state) {
   const genreView = new GenreView(levels[state.level]);
 
   changeScreen(genreView.element, renderHeaderTemplate(state));
-  // const genreAnswerButton = genreView.element.querySelector(`.genre-answer-send`);
-  // const inputElements = genreView.element.querySelectorAll(`.genre-answer input`);
 
-  genreView.onSwitch = (evt, answersGenreArr) => {
+  genreView.onSwitch = (evt, inputElements) => {
     evt.preventDefault();
+
+    let correctAnswer = () => {
+      let currentAnswersGenre = [];
+      inputElements.forEach((elem) => {
+        let correct = elem.getAttribute(`correct-answer`);
+        let isCorrect = (correct === `true`);
+        if (elem.checked === isCorrect) {
+          currentAnswersGenre.push(isCorrect);
+        } else {
+          currentAnswersGenre.push(!isCorrect);
+        }
+      });
+
+      return currentAnswersGenre;
+    };
+
+    let answersGenreArr = correctAnswer();
 
     let answersData = () => {
       let correctDataArr = [];
@@ -31,6 +46,7 @@ export default function renderGenreScreen(state) {
     };
 
     let answersDataArr = answersData();
+
     let currentCorrectAnswer = {
       correct: compareArrays(answersGenreArr, answersDataArr),
       time: FAST_TIME_ANSWER

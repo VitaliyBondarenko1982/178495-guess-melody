@@ -15,14 +15,6 @@ export const changeScreen = (element, header = document.createDocumentFragment()
   mainElement.appendChild(element);
 };
 
-// export const updateScreen = (element) => {
-//   mainElement.innerHTML = ``;
-//   let collection = element.children;
-//   [...collection].map((el) => {
-//     mainElement.appendChild(el);
-//   });
-// };
-
 export const goToStartInitialState = () => {
   INITIAL_STATE.points = 0;
   INITIAL_STATE.lives = 3;

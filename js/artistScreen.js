@@ -6,7 +6,6 @@ import overGameScreen from './overGameScreen';
 import {calculatePlayerResult, NUMBER_ANSWERS, FAST_TIME_ANSWER} from './calculate-points';
 import overTimeScreen from './overTimeScreen';
 import {INITIAL_STATE, levels, results} from './data-game';
-
 import ArtistView from "./artistScreenView";
 
 

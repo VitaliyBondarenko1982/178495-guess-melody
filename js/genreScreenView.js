@@ -47,27 +47,13 @@ export default class GenreView extends AbstractView {
       });
     });
 
-
-    let answers = [];
-    inputElements.forEach((elem) => {
-      elem.addEventListener(`click`, () => {
-        let correct = elem.getAttribute(`correct-answer`);
-        let isCorrect = (correct === `true`);
-        if (elem.checked === isCorrect) {
-          answers.push(isCorrect);
-        } else {
-          answers.push(!isCorrect);
-        }
-      });
-    });
-    // console.log(answers);
     [...playerControlButtons].forEach((elem) => {
       let audio = elem.previousElementSibling;
       player(elem, audio);
     });
 
     genreAnswerButton.addEventListener(`click`, (evt) => {
-      this.onSwitch(evt, answers);
+      this.onSwitch(evt, inputElements);
     });
   }
 
