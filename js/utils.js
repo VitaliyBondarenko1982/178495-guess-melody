@@ -1,28 +1,27 @@
 import {INITIAL_STATE} from './data-game';
 
-export const getElementFromTemplate = (template) => {
-  const wrapper = document.createElement(`div`);
-  wrapper.innerHTML = template.trim();
+export const render = (str) => {
+  const template = document.createElement(`template`);
+  template.innerHTML = str.trim();
 
-  return wrapper;
+  return template.content;
 };
 
 const mainElement = document.querySelector(`.main`);
 
-export const changeScreen = (screen) => {
-  let collection = screen.children;
-  [...collection].map((element) => {
-    mainElement.appendChild(element);
-  });
+export const changeScreen = (element, header = document.createDocumentFragment()) => {
+  mainElement.innerHTML = ``;
+  mainElement.appendChild(header);
+  mainElement.appendChild(element);
 };
 
-export const updateScreen = (element) => {
-  mainElement.innerHTML = ``;
-  let collection = element.children;
-  [...collection].map((el) => {
-    mainElement.appendChild(el);
-  });
-};
+// export const updateScreen = (element) => {
+//   mainElement.innerHTML = ``;
+//   let collection = element.children;
+//   [...collection].map((el) => {
+//     mainElement.appendChild(el);
+//   });
+// };
 
 export const goToStartInitialState = () => {
   INITIAL_STATE.points = 0;

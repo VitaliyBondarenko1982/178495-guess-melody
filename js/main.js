@@ -1,4 +1,4 @@
-import welcomeScreenElement from './screen-welcome';
-import {changeScreen} from './utils';
+import welcomeScreen from './welcomeScreen';
+import {INITIAL_STATE} from './data-game';
 
-changeScreen(welcomeScreenElement());
+welcomeScreen(INITIAL_STATE);

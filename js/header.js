@@ -1,5 +1,6 @@
-import {getElementFromTemplate, updateScreen, goToStartInitialState} from './utils';
-import welcomeScreenElement from './screen-welcome';
+import {render, goToStartInitialState} from './utils';
+import welcomeScreen from './welcomeScreen';
+import {INITIAL_STATE} from './data-game';
 
 export default function renderHeaderTemplate(state) {
   const headerTemplate = `<a class="play-again play-again__wrap" href="#">
@@ -21,12 +22,12 @@ export default function renderHeaderTemplate(state) {
     </div>`;
 
 
-  const headerElement = getElementFromTemplate(headerTemplate);
+  const headerElement = render(headerTemplate);
 
   const playAgainButton = headerElement.querySelector(`.play-again`);
 
   playAgainButton.addEventListener(`click`, () => {
-    updateScreen(welcomeScreenElement());
+    welcomeScreen(INITIAL_STATE);
     goToStartInitialState();
   });
 
