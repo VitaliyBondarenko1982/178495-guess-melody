@@ -5,9 +5,9 @@ import renderOverAttempts from './screen-overAttempts';
 import overGameElement from './screen-overGame';
 import {calculatePlayerResult} from './calculate-points';
 import renderOverTime from './screen-overTime';
-import {initialState, levels, results} from './data-game';
+import {INITIAL_STATE, levels, results} from './data-game';
 import player from "./player";
-
+import {NUMBER_ANSWERS, FAST_TIME_ANSWER} from "./calculate-points";
 
 export default function renderArtistTemplate(state) {
   const answersArtist = (item, i) => {
@@ -41,34 +41,34 @@ export default function renderArtistTemplate(state) {
 
   [...answerButtons].forEach((answer) => {
     answer.addEventListener(`click`, () => {
-      initialState.level++;
+      INITIAL_STATE.level++;
 
       let correctAnswer = answer.getAttribute(`correct-answer`);
       let isCorrect = (correctAnswer === `true`);
       let currentCorrectAnswer = {
         correct: isCorrect,
-        time: 30
+        time: FAST_TIME_ANSWER
       };
       results.push(currentCorrectAnswer);
       if (currentCorrectAnswer.correct === false) {
-        initialState.lives--;
+        INITIAL_STATE.lives--;
       }
 
-      if (initialState.lives === 0) {
-        updateScreen(renderHeaderTemplate(initialState));
+      if (INITIAL_STATE.lives === 0) {
+        updateScreen(renderHeaderTemplate(INITIAL_STATE));
         changeScreen(renderOverAttempts());
-      } else if (initialState.time === 0) {
-        updateScreen(renderHeaderTemplate(initialState));
+      } else if (INITIAL_STATE.time === 0) {
+        updateScreen(renderHeaderTemplate(INITIAL_STATE));
         changeScreen(renderOverTime());
-      } else if (initialState.level === 11) {
-        updateScreen(renderHeaderTemplate(initialState));
+      } else if (INITIAL_STATE.level > NUMBER_ANSWERS) {
+        updateScreen(renderHeaderTemplate(INITIAL_STATE));
         changeScreen(overGameElement(calculatePlayerResult()));
-      } else if (levels[initialState.level].type === `genre`) {
-        updateScreen(renderHeaderTemplate(initialState));
-        changeScreen(renderGenreTemplate(levels[initialState.level]));
+      } else if (levels[INITIAL_STATE.level].type === `genre`) {
+        updateScreen(renderHeaderTemplate(INITIAL_STATE));
+        changeScreen(renderGenreTemplate(levels[INITIAL_STATE.level]));
       } else {
-        updateScreen(renderHeaderTemplate(initialState));
-        changeScreen(renderArtistTemplate(levels[initialState.level]));
+        updateScreen(renderHeaderTemplate(INITIAL_STATE));
+        changeScreen(renderArtistTemplate(levels[INITIAL_STATE.level]));
       }
     });
   });

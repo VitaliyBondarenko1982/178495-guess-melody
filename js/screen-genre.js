@@ -1,12 +1,13 @@
-import {getElementFromTemplate, changeScreen, updateScreen} from './utils';
+import {getElementFromTemplate, changeScreen, updateScreen, compareArrays} from './utils';
 import renderArtistTemplate from './screen-artist';
 import renderHeaderTemplate from './header';
 import renderOverAttempts from './screen-overAttempts';
 import renderOverTime from './screen-overTime';
 import overGameElement from './screen-overGame';
 import {calculatePlayerResult} from './calculate-points';
-import {initialState, levels, results} from './data-game';
+import {INITIAL_STATE, levels, results} from './data-game';
 import player from "./player";
+import {NUMBER_ANSWERS, FAST_TIME_ANSWER} from "./calculate-points";
 
 export default function renderGenreTemplate(state) {
   const answersGenre = (item, i) => {
@@ -54,49 +55,66 @@ export default function renderGenreTemplate(state) {
 
   genreAnswerButton.addEventListener(`click`, (evt) => {
     evt.preventDefault();
-    initialState.level++;
+
 
     let correctAnswer = () => {
       let currentAnswersGenre = [];
-      let result = ``;
-      [...inputElements].forEach((elem) => {
+      inputElements.forEach((elem) => {
         let correct = elem.getAttribute(`correct-answer`);
         let isCorrect = (correct === `true`);
-        if (elem.checked === true) {
+        if (elem.checked === isCorrect) {
           currentAnswersGenre.push(isCorrect);
+        } else {
+          currentAnswersGenre.push(!isCorrect);
         }
       });
 
-      result = currentAnswersGenre.every((el) => {
-        return el === true;
-      });
-      return result;
+      return currentAnswersGenre;
     };
+
+    let answersGenreArr = correctAnswer();
+
+    let answersData = () => {
+      let correctDataArr = [];
+      let elemArray = ``;
+      for (let i = 0; i <= 3; i++) {
+        let elemArr = levels[INITIAL_STATE.level].answers[i].correct;
+        elemArray = elemArr;
+        correctDataArr.push(elemArray);
+      }
+      return correctDataArr;
+    };
+
+    let answersDataArr = answersData();
 
     let currentCorrectAnswer = {
-      correct: correctAnswer(),
-      time: 30
+      correct: compareArrays(answersGenreArr, answersDataArr),
+      time: FAST_TIME_ANSWER
     };
+
+
     results.push(currentCorrectAnswer);
     if (currentCorrectAnswer.correct === false) {
-      initialState.lives--;
+      INITIAL_STATE.lives--;
     }
 
-    if (initialState.lives === 0) {
-      updateScreen(renderHeaderTemplate(initialState));
+    INITIAL_STATE.level++;
+
+    if (INITIAL_STATE.lives === 0) {
+      updateScreen(renderHeaderTemplate(INITIAL_STATE));
       changeScreen(renderOverAttempts());
-    } else if (initialState.time === 0) {
-      updateScreen(renderHeaderTemplate(initialState));
+    } else if (INITIAL_STATE.time === 0) {
+      updateScreen(renderHeaderTemplate(INITIAL_STATE));
       changeScreen(renderOverTime());
-    } else if (initialState.level === 11) {
-      updateScreen(renderHeaderTemplate(initialState));
+    } else if (INITIAL_STATE.level > NUMBER_ANSWERS) {
+      updateScreen(renderHeaderTemplate(INITIAL_STATE));
       changeScreen(overGameElement(calculatePlayerResult()));
-    } else if (levels[initialState.level].type === `artist`) {
-      updateScreen(renderHeaderTemplate(initialState));
-      changeScreen(renderArtistTemplate(levels[initialState.level]));
+    } else if (levels[INITIAL_STATE.level].type === `artist`) {
+      updateScreen(renderHeaderTemplate(INITIAL_STATE));
+      changeScreen(renderArtistTemplate(levels[INITIAL_STATE.level]));
     } else {
-      updateScreen(renderHeaderTemplate(initialState));
-      changeScreen(renderGenreTemplate(levels[initialState.level]));
+      updateScreen(renderHeaderTemplate(INITIAL_STATE));
+      changeScreen(renderGenreTemplate(levels[INITIAL_STATE.level]));
     }
   });
 

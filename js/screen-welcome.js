@@ -1,7 +1,7 @@
 import {getElementFromTemplate, changeScreen, updateScreen} from './utils';
 import artistScreenElement from './screen-artist';
 import headerElement from "./header";
-import {initialState, levels} from './data-game';
+import {INITIAL_STATE, levels} from './data-game';
 
 export default () => {
   const welcomeScreen = `<section class="main main--welcome">
@@ -19,9 +19,9 @@ export default () => {
   const mainPlayButton = welcomeScreenElement.querySelector(`.main-play`);
 
   mainPlayButton.addEventListener(`click`, () => {
-    initialState.level++;
-    updateScreen(headerElement(initialState));
-    changeScreen(artistScreenElement(levels[initialState.level]));
+    INITIAL_STATE.level++;
+    updateScreen(headerElement(INITIAL_STATE));
+    changeScreen(artistScreenElement(levels[INITIAL_STATE.level]));
   });
 
   return welcomeScreenElement;
