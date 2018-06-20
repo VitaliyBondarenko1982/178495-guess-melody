@@ -1,4 +1,4 @@
-export const initialState = {
+export const INITIAL_STATE = {
   level: 0,
   lives: 3,
   time: 300,
@@ -39,8 +39,8 @@ export const levels = {
       },
       {
         audio: `https://www.youtube.com/audiolibrary_download?vid=a127d9b7de8a17cf`,
-        genre: `Country`,
-        correct: false,
+        genre: `Electronic`,
+        correct: true,
         autoplay: false
       },
       {
@@ -96,14 +96,14 @@ export const levels = {
       },
       {
         audio: `https://www.youtube.com/audiolibrary_download?vid=bcbe5be936a32fb1`,
-        genre: `Electronic`,
-        correct: false,
+        genre: `Rock`,
+        correct: true,
         autoplay: false
       },
       {
         audio: `https://www.youtube.com/audiolibrary_download?vid=a127d9b7de8a17cf`,
-        genre: `Country`,
-        correct: false,
+        genre: `Rock`,
+        correct: true,
         autoplay: false
       }
     ]
