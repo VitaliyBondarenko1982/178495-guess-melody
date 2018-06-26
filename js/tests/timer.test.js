@@ -1,5 +1,5 @@
 import {assert} from 'chai';
-import {setGameTimer} from './timer';
+import {setGameTimer} from '../timer';
 
 describe(`Check Game Timer`, () => {
   it(`Should return, that time is out`, () => {

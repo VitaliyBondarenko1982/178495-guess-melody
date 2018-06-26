@@ -1,5 +1,5 @@
 import {assert} from 'chai';
-import {calculatePoints} from "./calculate-points";
+import {calculatePoints} from "../calculate-points";
 
 const testPlayerResult = {
   ifGameEndedErlier: [
