@@ -3,7 +3,7 @@ import {setGameTimer} from '../timer';
 
 describe(`Check Game Timer`, () => {
   it(`Should return, that time is out`, () => {
-    assert.equal(setGameTimer(0).tick(), `Время вышло!`);
+    assert.equal(setGameTimer(0).isTimeout, true);
   });
 
   it(`should return time reduced by one`, () => {
