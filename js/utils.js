@@ -1,5 +1,3 @@
-import {INITIAL_STATE} from './data-game';
-
 export const render = (str) => {
   const template = document.createElement(`template`);
   template.innerHTML = str.trim();
@@ -15,11 +13,12 @@ export const changeScreen = (element, header = document.createDocumentFragment()
   mainElement.appendChild(element);
 };
 
-export const goToStartInitialState = () => {
-  INITIAL_STATE.points = 0;
-  INITIAL_STATE.lives = 3;
-  INITIAL_STATE.time = 300;
-  INITIAL_STATE.level = 0;
+export const goToStartInitialState = (state) => {
+  state.points = 0;
+  state.lives = 3;
+  state.time = 300;
+  state.level = 0;
+  state.fastAnswers = 0;
 };
 
 export const compareArrays = (arr, arr2) => {

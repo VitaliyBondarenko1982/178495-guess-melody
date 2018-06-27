@@ -10,7 +10,7 @@ export default class OverGameView extends AbstractView {
     return `<section class="main main--result">
       <section class="logo" title="Угадай мелодию"><h1>Угадай мелодию</h1></section>
       <h2 class="title">Вы настоящий меломан!</h2>
-      <div class="main-stat">За&nbsp;3&nbsp;минуты и 25&nbsp;секунд
+      <div class="main-stat">За&nbsp;${4 - this.result.currentTime.min}&nbsp;минуты и ${60 - this.result.currentTime.sec}&nbsp;секунд
         <br>вы&nbsp;набрали ${this.result.points} баллов (${this.result.fastAnswers} быстрых)
         <br>совершив ${3 - this.result.lives} ошибки</div>
       <span class="main-comparison">${this.result.stat}</span>

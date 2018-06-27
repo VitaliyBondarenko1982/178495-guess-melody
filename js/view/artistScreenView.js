@@ -1,6 +1,7 @@
 import AbstractView from "./abstractView";
-import player from "./player";
-
+import player from "../player";
+// import renderHeaderTemplate from '../render/header';
+// import {INITIAL_STATE} from '../data/data-game';
 
 export default class ArtistView extends AbstractView {
   constructor(level) {
@@ -49,6 +50,7 @@ export default class ArtistView extends AbstractView {
         this.onSwitch(evt);
       });
     });
+
   }
 
   onSwitch() {

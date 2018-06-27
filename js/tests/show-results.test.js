@@ -1,6 +1,6 @@
 import {assert} from 'chai';
-import {showResults} from './show-results';
-import {anotherTotalResultsArr} from './calculate-points';
+import {showResults} from '../show-results';
+import {anotherTotalResultsArr} from '../calculate-points';
 
 
 const makePlayerTotalResult = (playerPoints, playerLives, playerTime) => ({

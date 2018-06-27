@@ -1,6 +1,8 @@
-import {render, goToStartInitialState} from './utils';
-import welcomeScreen from './welcomeScreen';
-import {INITIAL_STATE} from './data-game';
+import {render, goToStartInitialState} from '../utils';
+import Router from "../router";
+// import {INITIAL_STATE} from "../data/data-game";
+let timerMin;
+let timerSec;
 
 export default function renderHeaderTemplate(state) {
   const headerTemplate = `<a class="play-again play-again__wrap" href="#">
@@ -12,9 +14,9 @@ export default function renderHeaderTemplate(state) {
         class="timer-line"
         style="filter: url(.#blur); transform: rotate(-90deg) scaleY(-1); transform-origin: center"></circle>
       <div class="timer-value" xmlns="http://www.w3.org/1999/xhtml">
-        <span class="timer-value-mins">05</span><!--
+        <span class="timer-value-mins">${state.currentTime.min}</span><!--
         --><span class="timer-value-dots">:</span><!--
-        --><span class="timer-value-secs">00</span>
+        --><span class="timer-value-secs">${state.currentTime.sec}</span>
       </div>
     </svg>
     <div class="main-mistakes">
@@ -26,10 +28,15 @@ export default function renderHeaderTemplate(state) {
 
   const playAgainButton = headerElement.querySelector(`.play-again`);
 
+  timerMin = headerElement.querySelector(`.timer-value-mins`);
+  timerSec = headerElement.querySelector(`.timer-value-secs`);
+
   playAgainButton.addEventListener(`click`, () => {
-    welcomeScreen(INITIAL_STATE);
+    Router.showWelcomeScreen();
     goToStartInitialState();
   });
 
   return headerElement;
 }
+
+export {timerMin, timerSec};

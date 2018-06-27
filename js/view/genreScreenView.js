@@ -1,6 +1,8 @@
 
 import AbstractView from "./abstractView";
-import player from "./player";
+import player from "../player";
+// import renderHeaderTemplate from '../render/header';
+// import {INITIAL_STATE} from '../data/data-game';
 
 export default class GenreView extends AbstractView {
   constructor(level) {
@@ -55,6 +57,9 @@ export default class GenreView extends AbstractView {
     genreAnswerButton.addEventListener(`click`, (evt) => {
       this.onSwitch(evt, inputElements);
     });
+
+    // this.timerMin = this.element.querySelector(`.timer-value-mins`);
+    // this.timerSec = this.element.querySelector(`.timer-value-secs`);
   }
 
   onSwitch() {

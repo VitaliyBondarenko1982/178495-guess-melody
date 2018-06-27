@@ -1,4 +1,3 @@
-import welcomeScreen from './welcomeScreen';
-import {INITIAL_STATE} from './data-game';
+import Router from "./router";
 
-welcomeScreen(INITIAL_STATE);
+Router.showWelcomeScreen();
