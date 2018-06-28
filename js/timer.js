@@ -2,7 +2,7 @@
 export const setGameTimer = (time) => {
   const gameTimer = {
     remainingTime: time,
-    isTimeout: false,
+    // isTimeout: false,
     tick() {
       if (this.remainingTime > 0) {
         this.remainingTime -= 1;
@@ -11,9 +11,9 @@ export const setGameTimer = (time) => {
       return this.remainingTime;
     }
   };
-  if (time === 0) {
-    time.isTimeout = true;
-  }
+  // if (time === 0) {
+  //   time.isTimeout = true;
+  // }
 
   return gameTimer;
 };

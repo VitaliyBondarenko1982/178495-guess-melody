@@ -6,8 +6,8 @@ export const INITIAL_STATE = {
 };
 
 
-export const levels = {
-  '1': {
+export const levels = [
+  {
     audio: `https://www.youtube.com/audiolibrary_download?vid=91624fdc22fc54ed`,
     type: `artist`,
     answers: [
@@ -28,7 +28,7 @@ export const levels = {
       }
     ]
   },
-  '2': {
+  {
     genre: `Electronic`,
     type: `genre`,
     answers: [
@@ -58,7 +58,7 @@ export const levels = {
       },
     ]
   },
-  '3': {
+  {
     audio: `https://www.youtube.com/audiolibrary_download?vid=a127d9b7de8a17cf`,
     type: `artist`,
     answers: [
@@ -79,7 +79,7 @@ export const levels = {
       }
     ]
   },
-  '4': {
+  {
     genre: `Rock`,
     type: `genre`,
     answers: [
@@ -109,7 +109,7 @@ export const levels = {
       }
     ]
   },
-  '5': {
+  {
     audio: `https://www.youtube.com/audiolibrary_download?vid=bcbe5be936a32fb1`,
     type: `artist`,
     answers: [
@@ -130,7 +130,7 @@ export const levels = {
       }
     ]
   },
-  '6': {
+  {
     genre: `Rock`,
     type: `genre`,
     answers: [
@@ -160,7 +160,7 @@ export const levels = {
       }
     ]
   },
-  '7': {
+  {
     audio: `https://www.youtube.com/audiolibrary_download?vid=bcbe5be936a32fb1`,
     type: `artist`,
     answers: [
@@ -181,7 +181,7 @@ export const levels = {
       }
     ]
   },
-  '8': {
+  {
     genre: `Pop`,
     type: `genre`,
     answers: [
@@ -211,7 +211,7 @@ export const levels = {
       }
     ]
   },
-  '9': {
+  {
     audio: `https://www.youtube.com/audiolibrary_download?vid=dfb828f40096184c`,
     type: `artist`,
     answers: [
@@ -232,7 +232,7 @@ export const levels = {
       }
     ]
   },
-  '10': {
+  {
     genre: `Electronic`,
     type: `genre`,
     answers: [
@@ -262,6 +262,6 @@ export const levels = {
       }
     ]
   }
-};
+];
 
 export let results = [];

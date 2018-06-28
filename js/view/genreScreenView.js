@@ -5,8 +5,9 @@ import player from "../player";
 // import {INITIAL_STATE} from '../data/data-game';
 
 export default class GenreView extends AbstractView {
-  constructor(level) {
+  constructor(state, level) {
     super();
+    this.state = state;
     this.level = level;
   }
 
@@ -28,7 +29,7 @@ export default class GenreView extends AbstractView {
     };
 
     return `<div class="main-wrap">
-        <h2 class="title">Выберите ${this.level.genre} треки</h2>
+        <h2 class="title">Уровень - ${this.state.level} - ${this.level.question}</h2>
         <form class="genre">
         ${this.level.answers.map((answer, index) => answersGenre(answer, index)).join(``)}
           <button class="genre-answer-send" type="submit">Ответить</button>

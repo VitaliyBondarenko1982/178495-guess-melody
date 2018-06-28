@@ -1,6 +1,6 @@
 import {changeScreen} from '../utils';
 import {NUMBER_ANSWERS} from '../calculate-points';
-import {levels, results} from '../data/data-game';
+import {results} from '../data/data-game';
 import ArtistView from "../view/artistScreenView";
 import Router from "../router";
 import renderHeaderTemplate from './header';
@@ -11,7 +11,7 @@ let timerValue;
 export default class ArtistScreen {
   constructor(model) {
     this.model = model;
-    this.content = new ArtistView(levels[this.model.state.level]);
+    this.content = new ArtistView(this.model.currentState, this.model.getNumberLevel(this.model.state.level));
     this.root = changeScreen(this.content.element, renderHeaderTemplate(this.model.state));
     this.timerValue = timerValue;
   }
@@ -28,7 +28,7 @@ export default class ArtistScreen {
     } else if (this.model.state.level > NUMBER_ANSWERS) {
       Router.showOverGameScreen();
       this.model.stopTimer();
-    } else if (levels[this.model.state.level].type === `genre`) {
+    } else if (this.model.getNumberLevel(this.model.state.level).type === `genre`) {
       Router.showGenreScreen();
       this.model.tick();
     } else {
@@ -66,10 +66,8 @@ export default class ArtistScreen {
     this.timerValue = setTimeout(() => {
       this.setTimerValue();
     }, 1000);
-    if (this.model.state.time === 0) {
-      this.stopTimerValue();
-    }
   }
+
   stopTimerValue() {
     clearTimeout(this.timerValue);
   }

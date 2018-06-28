@@ -1,8 +1,9 @@
-import {render, goToStartInitialState} from '../utils';
+import {render} from '../utils';
 import Router from "../router";
 // import {INITIAL_STATE} from "../data/data-game";
 let timerMin;
 let timerSec;
+let timerFinished;
 
 export default function renderHeaderTemplate(state) {
   const headerTemplate = `<a class="play-again play-again__wrap" href="#">
@@ -20,7 +21,7 @@ export default function renderHeaderTemplate(state) {
       </div>
     </svg>
     <div class="main-mistakes">
-      ${new Array(state.lives).fill(`<img class="main-mistake" src="img/wrong-answer.png" width="35" height="49">`).join(``)}
+      ${new Array(3 - state.lives).fill(`<img class="main-mistake" src="img/wrong-answer.png" width="35" height="49">`).join(``)}
     </div>`;
 
 
@@ -30,13 +31,12 @@ export default function renderHeaderTemplate(state) {
 
   timerMin = headerElement.querySelector(`.timer-value-mins`);
   timerSec = headerElement.querySelector(`.timer-value-secs`);
-
+  timerFinished = headerElement.querySelector(`.timer-value`);
   playAgainButton.addEventListener(`click`, () => {
-    Router.showWelcomeScreen();
-    goToStartInitialState();
+    Router.showConfirmScreen();
   });
 
   return headerElement;
 }
 
-export {timerMin, timerSec};
+export {timerMin, timerSec, timerFinished};

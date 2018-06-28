@@ -6,6 +6,7 @@ export const render = (str) => {
 };
 
 const mainElement = document.querySelector(`.main`);
+const app = document.querySelector(`.app`);
 
 export const changeScreen = (element, header = document.createDocumentFragment()) => {
   mainElement.innerHTML = ``;
@@ -19,6 +20,10 @@ export const goToStartInitialState = (state) => {
   state.time = 300;
   state.level = 0;
   state.fastAnswers = 0;
+};
+
+export const createModal = (element) => {
+  app.insertBefore(element, mainElement);
 };
 
 export const compareArrays = (arr, arr2) => {
