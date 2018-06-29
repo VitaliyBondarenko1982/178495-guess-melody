@@ -11,7 +11,7 @@ let timerValue;
 export default class ArtistScreen {
   constructor(model) {
     this.model = model;
-    this.content = new ArtistView(this.model.currentState, this.model.getNumberLevel(this.model.state.level));
+    this.content = new ArtistView(this.model.currentState, this.model.getNumberLevel(this.model.state.level - 1));
     this.root = changeScreen(this.content.element, renderHeaderTemplate(this.model.state));
     this.timerValue = timerValue;
   }
@@ -28,7 +28,7 @@ export default class ArtistScreen {
     } else if (this.model.state.level > NUMBER_ANSWERS) {
       Router.showOverGameScreen();
       this.model.stopTimer();
-    } else if (this.model.getNumberLevel(this.model.state.level).type === `genre`) {
+    } else if (this.model.getNumberLevel(this.model.state.level - 1).type === `genre`) {
       Router.showGenreScreen();
       this.model.tick();
     } else {

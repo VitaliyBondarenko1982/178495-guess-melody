@@ -22,7 +22,7 @@ export default class GameModel {
     return this.data[numberLevel];
   }
 
-  getFirstLevelType() {
+  getFirstLevel() {
     return this.data[0].type;
   }
 

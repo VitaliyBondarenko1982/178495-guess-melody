@@ -1,5 +1,5 @@
 import GenreView from "../view/genreScreenView";
-import {levels, results} from '../data/data-game';
+import {results} from '../data/data-game';
 import {changeScreen, compareArrays} from '../utils';
 import {NUMBER_ANSWERS} from '../calculate-points';
 import Router from "../router";
@@ -11,7 +11,7 @@ let timerValue;
 export default class GenreScreen {
   constructor(model) {
     this.model = model;
-    this.content = new GenreView(this.model.currentState, this.model.getNumberLevel(this.model.state.level));
+    this.content = new GenreView(this.model.currentState, this.model.getNumberLevel(this.model.state.level - 1));
     this.root = changeScreen(this.content.element, renderHeaderTemplate(this.model.state));
     this.timerValue = timerValue;
   }
@@ -63,7 +63,7 @@ export default class GenreScreen {
         let correctDataArr = [];
         let elemArray = ``;
         for (let i = 0; i <= 3; i++) {
-          let elemArr = levels[this.model.state.level].answers[i].correct;
+          let elemArr = this.model.getNumberLevel(this.model.state.level - 1).answers[i].correct;
           elemArray = elemArr;
           correctDataArr.push(elemArray);
         }
