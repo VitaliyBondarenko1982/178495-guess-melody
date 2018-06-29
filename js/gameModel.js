@@ -1,18 +1,29 @@
-import {setGameTimer, createTimer} from "./timer";
-import {calculatePlayerResult} from "./calculate-points";
+import {setGameTimer, createTimer} from './timer';
+import {calculatePlayerResult} from './calculate-points';
+import {goToStartInitialState} from './utils';
+import {INITIAL_STATE} from './data/data-game';
 
 let timer;
 const ONE_SECOND = 1000;
 
 export default class GameModel {
-  constructor(state) {
-    this._state = state;
+  constructor(data) {
+    this.data = data;
+    this.state = INITIAL_STATE;
     this.timer = setGameTimer(this.state.time);
     this.tick = this.tick.bind(this);
   }
 
-  get state() {
-    return this._state;
+  get currentState() {
+    return this.state;
+  }
+
+  getNumberLevel(numberLevel) {
+    return this.data[numberLevel];
+  }
+
+  getFirstLevel() {
+    return this.data[0].type;
   }
 
   getPlayerResult() {
@@ -28,6 +39,10 @@ export default class GameModel {
     return this.state.lives--;
   }
 
+  goToStartInitialState() {
+    return goToStartInitialState(this.state);
+  }
+
   tick() {
     this.createTimer();
     this.timer.tick();
@@ -36,7 +51,10 @@ export default class GameModel {
     timer = setTimeout(() => {
       this.tick();
     }, ONE_SECOND);
-    if (this.state.time === 0) {
+    // if (this.state.time <= 30) {
+    //   timerFinished.classlist.add(`timer-value--finished`);
+    // }
+    if (this.state.time < 0) {
       this.stopTimer();
     }
   }

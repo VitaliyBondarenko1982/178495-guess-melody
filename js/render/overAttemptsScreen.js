@@ -1,5 +1,5 @@
 import OverAttemptsView from '../view/overAttemptsScreenView';
-import {changeScreen, goToStartInitialState} from '../utils';
+import {changeScreen} from '../utils';
 import {INITIAL_STATE} from '../data/data-game';
 // import welcomeScreen from './welcomeScreen';
 import renderHeaderTemplate from './header';
@@ -18,9 +18,8 @@ export default class OverAttemptsScreen {
 
   showResult() {
     this.content.onSwitch = () => {
+      this.model.goToStartInitialState();
       Router.showWelcomeScreen();
-      goToStartInitialState();
-      // this.model.initialState();
     };
   }
 

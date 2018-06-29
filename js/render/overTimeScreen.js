@@ -1,5 +1,5 @@
 import OverTimeView from '../view/overTimeScreenView';
-import {changeScreen, goToStartInitialState} from '../utils';
+import {changeScreen} from '../utils';
 import {INITIAL_STATE} from '../data/data-game';
 // import welcomeScreen from './welcomeScreen';
 import renderHeaderTemplate from './header';
@@ -18,8 +18,8 @@ export default class OverTimeScreen {
 
   showResult() {
     this.content.onSwitch = () => {
+      this.model.goToStartInitialState();
       Router.showWelcomeScreen();
-      goToStartInitialState();
     };
   }
 

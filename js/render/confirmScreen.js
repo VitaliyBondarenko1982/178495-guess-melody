@@ -1,15 +1,14 @@
-import OverGameView from '../view/overGameScreenView';
+import ConfirmView from '../view/confirmScreenView';
 import {changeScreen} from '../utils';
 import {INITIAL_STATE} from '../data/data-game';
-// import welcomeScreen from './welcomeScreen';
 import renderHeaderTemplate from './header';
 import Router from "../router";
 
-export default class OverGameScreen {
-  constructor(model, obj) {
+
+export default class ConfirmScreen {
+  constructor(model) {
     this.model = model;
-    this.obj = obj;
-    this.content = new OverGameView(obj);
+    this.content = new ConfirmView();
     this.root = changeScreen(this.content.element, renderHeaderTemplate(INITIAL_STATE));
   }
 
@@ -17,14 +16,19 @@ export default class OverGameScreen {
     return this.root;
   }
 
-  showResult() {
-    this.content.onSwitch = () => {
+  goToStart() {
+    this.content.onStart = () => {
       this.model.goToStartInitialState();
       Router.showWelcomeScreen();
     };
   }
+  // cancelConfirm() {
+  //   this.content.onSwitch = () => {
+  //
+  //   };
+  // }
 
   init() {
-    this.showResult();
+    this.goToStart();
   }
 }
