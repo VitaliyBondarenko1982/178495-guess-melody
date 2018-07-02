@@ -1,9 +1,8 @@
 import {render} from '../utils';
-import Router from "../router";
-// import {INITIAL_STATE} from "../data/data-game";
+import Application from '../application';
+
 let timerMin;
 let timerSec;
-let timerFinished;
 
 export default function renderHeaderTemplate(state) {
   const headerTemplate = `<a class="play-again play-again__wrap" href="#">
@@ -31,12 +30,11 @@ export default function renderHeaderTemplate(state) {
 
   timerMin = headerElement.querySelector(`.timer-value-mins`);
   timerSec = headerElement.querySelector(`.timer-value-secs`);
-  timerFinished = headerElement.querySelector(`.timer-value`);
   playAgainButton.addEventListener(`click`, () => {
-    Router.showConfirmScreen();
+    Application.showConfirmScreen();
   });
 
   return headerElement;
 }
 
-export {timerMin, timerSec, timerFinished};
+export {timerMin, timerSec};

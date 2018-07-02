@@ -6,35 +6,25 @@ import OverAttemptsScreen from './render/overAttemptsScreen';
 import ConfirmScreen from './render/confirmScreen';
 import OverTimeScreen from './render/overTimeScreen';
 import OverGameScreen from './render/overGameScreen';
-// import {INITIAL_STATE} from "./data/data-game";
 import {createModal} from './utils';
 import ErrorView from './view/errorView';
 import {adaptServerData} from './data/data-adapter';
-
-
-const checkStatus = (response) => {
-  if (response.status >= 200 && response.status < 300) {
-    return response;
-  } else {
-    throw new Error(`${response.status}`);
-  }
-};
+import Loader from './loader';
+import ResultsScreen from './render/resultsScreen';
 
 let gameData;
-export default class Router {
+export default class Application {
   static load() {
     this.gameData = ``;
-    window.fetch(`https://es.dump.academy/guess-melody/questions`)
-     .then(checkStatus)
-     .then((response) => response.json())
+    Loader.loadData()
      .then((data) => {
        this.gameData = adaptServerData(data);
        return gameData;
      })
      .then(() => {
-       Router.showWelcomeScreen();
+       Application.showWelcomeScreen();
      })
-     .catch(Router.showErrorModal);
+     .catch(Application.showErrorModal);
   }
 
   static showWelcomeScreen() {
@@ -44,37 +34,31 @@ export default class Router {
   }
 
   static showArtistScreen() {
-    // const model = new GameModel(INITIAL_STATE, gameData);
     const artistScreen = new ArtistScreen(this.model);
     artistScreen.init();
   }
 
   static showGenreScreen() {
-    // const model = new GameModel(INITIAL_STATE, gameData);
     const genreScreen = new GenreScreen(this.model);
     genreScreen.init();
   }
 
   static showOverAttemptsScreen() {
-    // const model = new GameModel(INITIAL_STATE, gameData);
     const overAttemptsScreen = new OverAttemptsScreen(this.model);
     overAttemptsScreen.init();
   }
 
   static showOverTimeScreen() {
-    // const model = new GameModel(INITIAL_STATE, gameData);
     const overTimeScreen = new OverTimeScreen(this.model);
     overTimeScreen.init();
   }
 
-  static showOverGameScreen() {
-    // const model = new GameModel(INITIAL_STATE, gameData);
-    const overGameScreen = new OverGameScreen(this.model, this.model.getPlayerResult());
+  static showOverGameScreen(data) {
+    const overGameScreen = new OverGameScreen(this.model, this.model.getPlayerResult(data));
     overGameScreen.init();
   }
 
   static showConfirmScreen() {
-    // const model = new GameModel(INITIAL_STATE);
     const confirmScreen = new ConfirmScreen(this.model);
     confirmScreen.init();
   }
@@ -82,5 +66,22 @@ export default class Router {
   static showErrorModal(error) {
     const errorModal = new ErrorView(error);
     createModal(errorModal.element);
+  }
+
+  static showStatisticScreen() {
+    this.allResults = [];
+    const loadFinalResult = new ResultsScreen(this.model);
+    loadFinalResult.init();
+    this.model.getPlayerResult();
+    Loader.saveResults({score: this.model.state.points})
+      .catch(Application.showError);
+    Loader.loadResults()
+      .then((data) => {
+        data.forEach((elem) => {
+          this.allResults.push(elem.score);
+        });
+        Application.showOverGameScreen(this.allResults);
+      })
+      .catch(Application.showError);
   }
 }

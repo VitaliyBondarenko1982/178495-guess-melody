@@ -22,9 +22,13 @@ export default class GameModel {
     return this.data[numberLevel];
   }
 
-  getFirstLevel() {
+  getStartGame() {
     return this.data[0].type;
   }
+
+  // calculatePoints() {
+  //   return calculatePoints(this.state);
+  // }
 
   getPlayerResult() {
     return calculatePlayerResult(this.state);
@@ -51,9 +55,7 @@ export default class GameModel {
     timer = setTimeout(() => {
       this.tick();
     }, ONE_SECOND);
-    // if (this.state.time <= 30) {
-    //   timerFinished.classlist.add(`timer-value--finished`);
-    // }
+
     if (this.state.time < 0) {
       this.stopTimer();
     }

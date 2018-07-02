@@ -1,8 +1,8 @@
-import GenreView from "../view/genreScreenView";
+import GenreView from '../view/genreScreenView';
 import {results} from '../data/data-game';
 import {changeScreen, compareArrays} from '../utils';
 import {NUMBER_ANSWERS} from '../calculate-points';
-import Router from "../router";
+import Application from '../application';
 import renderHeaderTemplate from './header';
 import {timerMin, timerSec} from './header';
 
@@ -22,17 +22,17 @@ export default class GenreScreen {
 
   answer() {
     if (this.model.state.lives === 0) {
-      Router.showOverAttemptsScreen();
+      Application.showOverAttemptsScreen();
     } else if (this.model.state.time === 0) {
-      Router.showOverTimeScreen();
+      Application.showOverTimeScreen();
     } else if (this.model.state.level > NUMBER_ANSWERS) {
-      Router.showOverGameScreen();
+      Application.showStatisticScreen();
       this.model.stopTimer();
     } else if (this.model.getNumberLevel(this.model.state.level - 1).type === `artist`) {
-      Router.showArtistScreen();
+      Application.showArtistScreen();
       this.model.tick();
     } else {
-      Router.showGenreScreen();
+      Application.showGenreScreen();
       this.model.tick();
     }
   }
@@ -99,9 +99,6 @@ export default class GenreScreen {
     this.timerValue = setTimeout(() => {
       this.setTimerValue();
     }, 1000);
-    if (this.model.state.time === 0) {
-      this.stopTimerValue();
-    }
   }
 
   stopTimerValue() {

@@ -1,8 +1,6 @@
 import {changeScreen} from '../utils';
-// import ArtistScreen from './artistScreen';
-import WelcomeView from "../view/welcomeScreenView";
-// import GameModel from "../gameModel";
-import Router from '../router';
+import WelcomeView from '../view/welcomeScreenView';
+import Application from '../application';
 
 export default class WelcomeScreen {
   constructor(model) {
@@ -21,10 +19,10 @@ export default class WelcomeScreen {
       this.model.nextLevel();
       this.model.createTimer();
       this.activateTimer();
-      if (this.model.getFirstLevel() === `artist`) {
-        Router.showArtistScreen();
+      if (this.model.getStartGame() === `artist`) {
+        Application.showArtistScreen();
       } else {
-        Router.showGenreScreen();
+        Application.showGenreScreen();
       }
     };
   }

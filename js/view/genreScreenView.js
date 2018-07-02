@@ -1,8 +1,6 @@
 
-import AbstractView from "./abstractView";
-import player from "../player";
-// import renderHeaderTemplate from '../render/header';
-// import {INITIAL_STATE} from '../data/data-game';
+import AbstractView from './abstractView';
+import player from '../player';
 
 export default class GenreView extends AbstractView {
   constructor(state, level) {
@@ -52,15 +50,13 @@ export default class GenreView extends AbstractView {
 
     [...playerControlButtons].forEach((elem) => {
       let audio = elem.previousElementSibling;
-      player(elem, audio);
+      player(elem, audio, [...playerControlButtons]);
     });
 
     genreAnswerButton.addEventListener(`click`, (evt) => {
       this.onSwitch(evt, inputElements);
     });
 
-    // this.timerMin = this.element.querySelector(`.timer-value-mins`);
-    // this.timerSec = this.element.querySelector(`.timer-value-secs`);
   }
 
   onSwitch() {

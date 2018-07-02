@@ -1,9 +1,8 @@
 import OverGameView from '../view/overGameScreenView';
 import {changeScreen} from '../utils';
 import {INITIAL_STATE} from '../data/data-game';
-// import welcomeScreen from './welcomeScreen';
 import renderHeaderTemplate from './header';
-import Router from "../router";
+import Application from '../application';
 
 export default class OverGameScreen {
   constructor(model, obj) {
@@ -20,7 +19,7 @@ export default class OverGameScreen {
   showResult() {
     this.content.onSwitch = () => {
       this.model.goToStartInitialState();
-      Router.showWelcomeScreen();
+      Application.showWelcomeScreen();
     };
   }
 

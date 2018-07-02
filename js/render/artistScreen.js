@@ -1,8 +1,8 @@
 import {changeScreen} from '../utils';
 import {NUMBER_ANSWERS} from '../calculate-points';
 import {results} from '../data/data-game';
-import ArtistView from "../view/artistScreenView";
-import Router from "../router";
+import ArtistView from '../view/artistScreenView';
+import Application from '../application';
 import renderHeaderTemplate from './header';
 import {timerMin, timerSec} from './header';
 
@@ -22,23 +22,24 @@ export default class ArtistScreen {
 
   answer() {
     if (this.model.state.lives === 0) {
-      Router.showOverAttemptsScreen();
+      Application.showOverAttemptsScreen();
     } else if (this.model.state.time === 0) {
-      Router.showOverTimeScreen();
+      Application.showOverTimeScreen();
     } else if (this.model.state.level > NUMBER_ANSWERS) {
-      Router.showOverGameScreen();
+      Application.showStatisticScreen();
       this.model.stopTimer();
     } else if (this.model.getNumberLevel(this.model.state.level - 1).type === `genre`) {
-      Router.showGenreScreen();
+      Application.showGenreScreen();
       this.model.tick();
     } else {
-      Router.showArtistScreen();
+      Application.showArtistScreen();
       this.model.tick();
     }
   }
 
   changeLevel() {
     let previousAnswerTime = this.model.state.time;
+
     this.content.onSwitch = (evt) => {
       this.model.nextLevel();
       this.model.stopTimer();
