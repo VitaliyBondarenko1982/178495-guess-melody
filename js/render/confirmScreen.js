@@ -1,34 +1,31 @@
 import ConfirmView from '../view/confirmScreenView';
-import {changeScreen} from '../utils';
-import {INITIAL_STATE} from '../data/data-game';
-import renderHeaderTemplate from './header';
-import Router from "../router";
+import {createModal, removeModal} from '../utils';
+import Application from '../application';
 
 
 export default class ConfirmScreen {
   constructor(model) {
     this.model = model;
     this.content = new ConfirmView();
-    this.root = changeScreen(this.content.element, renderHeaderTemplate(INITIAL_STATE));
+    this.root = createModal(this.content.element);
   }
 
   get element() {
     return this.root;
   }
 
-  goToStart() {
+  closeConfirm() {
     this.content.onStart = () => {
+      removeModal(this.content.modalWindow);
       this.model.goToStartInitialState();
-      Router.showWelcomeScreen();
+      Application.showWelcomeScreen();
+    };
+    this.content.onCancel = () => {
+      removeModal(this.content.modalWindow);
     };
   }
-  // cancelConfirm() {
-  //   this.content.onSwitch = () => {
-  //
-  //   };
-  // }
 
   init() {
-    this.goToStart();
+    this.closeConfirm();
   }
 }

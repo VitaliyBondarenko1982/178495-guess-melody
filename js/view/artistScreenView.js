@@ -1,7 +1,5 @@
-import AbstractView from "./abstractView";
-import player from "../player";
-// import renderHeaderTemplate from '../render/header';
-// import {INITIAL_STATE} from '../data/data-game';
+import AbstractView from './abstractView';
+import player from '../player';
 
 export default class ArtistView extends AbstractView {
   constructor(state, level) {
@@ -44,7 +42,7 @@ export default class ArtistView extends AbstractView {
     const audioTrack = this.element.querySelector(`.player audio`);
     const playerControlButton = this.element.querySelector(`.player-control`);
 
-    player(playerControlButton, audioTrack);
+    player(playerControlButton, audioTrack, [playerControlButton]);
 
     [...answerButtons].forEach((answer) => {
       answer.addEventListener(`click`, (evt) => {

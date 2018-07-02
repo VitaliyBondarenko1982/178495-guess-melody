@@ -20,10 +20,15 @@ export const goToStartInitialState = (state) => {
   state.time = 300;
   state.level = 0;
   state.fastAnswers = 0;
+  state.results = [];
 };
 
 export const createModal = (element) => {
   app.insertBefore(element, mainElement);
+};
+
+export const removeModal = (element) => {
+  app.removeChild(element);
 };
 
 export const compareArrays = (arr, arr2) => {

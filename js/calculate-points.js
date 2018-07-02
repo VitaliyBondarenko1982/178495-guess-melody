@@ -48,18 +48,18 @@ export const anotherTotalResultsArr = [
   }
 ];
 
-export const calculatePoints = (playerAnswers, leftLives) => {
-  if (playerAnswers.length < NUMBER_ANSWERS) {
-    return -1;
-  }
-  const countLives = leftLives >= 0;
+export const calculatePoints = (playerAnswers) => {
+  // if (playerAnswers.length < NUMBER_ANSWERS && INITIAL_STATE.lives > 0 || INITIAL_STATE.lives === 0) {
+  //   return -1;
+  // }
+  // const countLives = leftLives >= 0;
   let points = 0;
   playerAnswers.forEach((el) => {
-    if (el.correct && el.time >= FAST_TIME_ANSWER && countLives) {
+    if (el.correct && el.time >= FAST_TIME_ANSWER) {
       points += ANSWER_POINTS.CORRECT;
-    } else if (el.correct && el.time < FAST_TIME_ANSWER && countLives) {
+    } else if (el.correct && el.time < FAST_TIME_ANSWER) {
       points += ANSWER_POINTS.FAST;
-    } else if (!el.correct && countLives) {
+    } else if (!el.correct) {
       points += ANSWER_POINTS.INCORRECT;
     }
   });
@@ -68,7 +68,7 @@ export const calculatePoints = (playerAnswers, leftLives) => {
 };
 
 export const calculatePlayerResult = (state) => {
-  state.points = calculatePoints(results, state.lives);
+  state.points = calculatePoints(results);
   const calculateFastAnswers = (results.filter((it) => it.time < 30 && it.correct === true)).length;
   let statInfo = showResults(state, anotherTotalResultsArr);
   state.fastAnswers = calculateFastAnswers;

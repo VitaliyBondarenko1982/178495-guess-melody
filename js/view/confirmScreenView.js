@@ -6,7 +6,7 @@ export default class ConfirmView extends AbstractView {
   }
 
   get template() {
-    return `<section class="modal-confirm modal-confirm__wrap">
+    return `<section class="modal-confirm modal-confirm__wrap" style="z-index: 2;">
       <form class="modal-confirm__inner">
         <button class="modal-confirm__close" type="button">Закрыть</button>
         <h2 class="modal-confirm__title">Подтверждение</h2>
@@ -21,6 +21,7 @@ export default class ConfirmView extends AbstractView {
   }
 
   bind() {
+    this.modalWindow = this.element.querySelector(`.modal-confirm`);
     const okButton = this.element.querySelector(`.modal-confirm__ok`);
     okButton.addEventListener(`click`, () => {
       this.onStart();
@@ -28,12 +29,12 @@ export default class ConfirmView extends AbstractView {
 
     const closeButton = this.element.querySelector(`.modal-confirm__close`);
     closeButton.addEventListener(`click`, () => {
-      this.onClose();
+      this.onCancel();
     });
 
     const cancelButton = this.element.querySelector(`.modal-confirm__cancel`);
     cancelButton.addEventListener(`click`, () => {
-      this.onClose();
+      this.onCancel();
     });
   }
 
@@ -41,7 +42,7 @@ export default class ConfirmView extends AbstractView {
 
   }
 
-  onClose() {
+  onCancel() {
 
   }
 }

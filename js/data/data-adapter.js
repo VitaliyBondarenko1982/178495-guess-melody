@@ -1,3 +1,5 @@
+import {calculatePoints} from '../calculate-points';
+
 export const adaptServerData = (data) => {
   for (const level of Object.values(data)) {
     if (level.type === `artist`) {
@@ -20,4 +22,12 @@ export const adaptServerData = (data) => {
     }
   }
   return data;
+};
+
+export const adaptServerResults = (data) => {
+  const adaptedResults = data.map((item) => {
+    return calculatePoints(item);
+  });
+
+  return adaptedResults;
 };
