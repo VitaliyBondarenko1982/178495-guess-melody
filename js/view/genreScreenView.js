@@ -49,7 +49,7 @@ export default class GenreView extends AbstractView {
     });
 
     [...playerControlButtons].forEach((elem) => {
-      let audio = elem.previousElementSibling;
+      const audio = elem.previousElementSibling;
       player(elem, audio, [...playerControlButtons]);
     });
 

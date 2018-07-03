@@ -38,18 +38,18 @@ export default class ArtistScreen {
   }
 
   changeLevel() {
-    let previousAnswerTime = this.model.state.time;
+    const previousAnswerTime = this.model.state.time;
 
     this.content.onSwitch = (evt) => {
       this.model.nextLevel();
       this.model.stopTimer();
       this.stopTimerValue();
 
-      let correctAnswer = evt.currentTarget.getAttribute(`correct-answer`);
-      let isCorrect = (correctAnswer === `true`);
-      let currentAnswerTime = this.model.state.time;
-      let answerTime = previousAnswerTime - currentAnswerTime;
-      let currentCorrectAnswer = {
+      const correctAnswer = evt.currentTarget.getAttribute(`correct-answer`);
+      const isCorrect = (correctAnswer === `true`);
+      const currentAnswerTime = this.model.state.time;
+      const answerTime = previousAnswerTime - currentAnswerTime;
+      const currentCorrectAnswer = {
         correct: isCorrect,
         time: answerTime
       };

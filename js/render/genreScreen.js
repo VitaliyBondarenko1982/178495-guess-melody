@@ -60,14 +60,13 @@ export default class GenreScreen {
       let answersGenreArr = correctAnswer();
 
       let answersData = () => {
-        let correctDataArr = [];
-        let elemArray = ``;
+        let correctAnswersData = [];
+        let elemArr = ``;
         for (let i = 0; i <= 3; i++) {
-          let elemArr = this.model.getNumberLevel(this.model.state.level - 1).answers[i].correct;
-          elemArray = elemArr;
-          correctDataArr.push(elemArray);
+          elemArr = this.model.getNumberLevel(this.model.state.level - 1).answers[i].correct;
+          correctAnswersData.push(elemArr);
         }
-        return correctDataArr;
+        return correctAnswersData;
       };
 
       let answersDataArr = answersData();

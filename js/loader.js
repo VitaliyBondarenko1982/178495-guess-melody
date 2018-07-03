@@ -4,11 +4,14 @@ const toJSON = (res) => res.json();
 const checkStatus = (response) => {
   if (response.status === 404) {
     return [];
-  } else if (response.status >= 200 && response.status < 300) {
-    return response;
-  } else {
-    throw new Error(`${response.status}`);
   }
+
+  if (response.status >= 200 && response.status < 300) {
+    return response;
+  }
+
+  throw new Error(`${response.status}`);
+
 };
 
 

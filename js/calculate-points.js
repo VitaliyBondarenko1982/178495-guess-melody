@@ -70,7 +70,7 @@ export const calculatePoints = (playerAnswers) => {
 export const calculatePlayerResult = (state) => {
   state.points = calculatePoints(results);
   const calculateFastAnswers = (results.filter((it) => it.time < 30 && it.correct === true)).length;
-  let statInfo = showResults(state, anotherTotalResultsArr);
+  const statInfo = showResults(state, anotherTotalResultsArr);
   state.fastAnswers = calculateFastAnswers;
   state.stat = statInfo;
 

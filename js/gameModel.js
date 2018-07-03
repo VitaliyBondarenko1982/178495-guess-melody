@@ -26,9 +26,6 @@ export default class GameModel {
     return this.data[0].type;
   }
 
-  // calculatePoints() {
-  //   return calculatePoints(this.state);
-  // }
 
   getPlayerResult() {
     return calculatePlayerResult(this.state);
