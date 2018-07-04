@@ -38,36 +38,36 @@ export default class GenreScreen {
   }
 
   changeLevel() {
-    let previousAnswerTime = this.model.state.time;
+    const previousAnswerTime = this.model.state.time;
     this.content.onSwitch = (evt, inputElements) => {
       evt.preventDefault();
 
-      let correctAnswer = () => {
-        let currentAnswersGenre = [];
+      const getPlayerAnswers = () => {
+        const currentPlayerAnswers = [];
         inputElements.forEach((elem) => {
-          let correct = elem.getAttribute(`correct-answer`);
-          let isCorrect = (correct === `true`);
+          const correct = elem.getAttribute(`correct-answer`);
+          const isCorrect = (correct === `true`);
           if (elem.checked === isCorrect) {
-            currentAnswersGenre.push(isCorrect);
+            currentPlayerAnswers.push(isCorrect);
           } else {
-            currentAnswersGenre.push(!isCorrect);
+            currentPlayerAnswers.push(!isCorrect);
           }
         });
 
-        return currentAnswersGenre;
+        return currentPlayerAnswers;
       };
 
-      let answersGenreArr = correctAnswer();
+      const playerAnswers = getPlayerAnswers();
 
       const getCorrectAnswers = (data) => {
         return data.answers.map((item) => item.correct);
       };
 
-      let answersDataArr = getCorrectAnswers(this.model.getNumberLevel(this.model.state.level - 1));
-      let currentAnswerTime = this.model.state.time;
-      let answerTime = previousAnswerTime - currentAnswerTime;
-      let currentCorrectAnswer = {
-        correct: compareArrays(answersGenreArr, answersDataArr),
+      const dataAnswers = getCorrectAnswers(this.model.getNumberLevel(this.model.state.level - 1));
+      const currentAnswerTime = this.model.state.time;
+      const answerTime = previousAnswerTime - currentAnswerTime;
+      const currentCorrectAnswer = {
+        correct: compareArrays(playerAnswers, dataAnswers),
         time: answerTime
       };
 

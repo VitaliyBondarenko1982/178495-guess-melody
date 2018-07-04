@@ -12,11 +12,11 @@ export const showResults = (playerTotalResult, anotherTotalResults) => {
 
   const pointsAllPlayers = anotherTotalResults.map((el) => el.points);
   pointsAllPlayers.push(playerTotalResult.points);
-  let sortedResults = pointsAllPlayers.sort((a, b) => b - a);
-  let playerPlaceIndex = sortedResults.indexOf(playerTotalResult.points);
-  let playerPlace = playerPlaceIndex + 1;
-  let numberPlayers = pointsAllPlayers.length;
-  let percentSuccess = (numberPlayers - playerPlace) / numberPlayers * 100;
+  const sortedResults = pointsAllPlayers.sort((a, b) => b - a);
+  const playerPlaceIndex = sortedResults.indexOf(playerTotalResult.points);
+  const playerPlace = playerPlaceIndex + 1;
+  const numberPlayers = pointsAllPlayers.length;
+  const percentSuccess = (numberPlayers - playerPlace) / numberPlayers * 100;
   gameResult = `Вы заняли ${playerPlace} место из ${numberPlayers} игроков. Это лучше, чем у ${percentSuccess}% игроков`;
   return gameResult;
 };
