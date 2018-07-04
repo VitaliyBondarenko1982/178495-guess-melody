@@ -59,17 +59,11 @@ export default class GenreScreen {
 
       let answersGenreArr = correctAnswer();
 
-      let answersData = () => {
-        let correctAnswersData = [];
-        let elemArr = ``;
-        for (let i = 0; i <= 3; i++) {
-          elemArr = this.model.getNumberLevel(this.model.state.level - 1).answers[i].correct;
-          correctAnswersData.push(elemArr);
-        }
-        return correctAnswersData;
+      const getCorrectAnswers = (data) => {
+        return data.answers.map((item) => item.correct);
       };
 
-      let answersDataArr = answersData();
+      let answersDataArr = getCorrectAnswers(this.model.getNumberLevel(this.model.state.level - 1));
       let currentAnswerTime = this.model.state.time;
       let answerTime = previousAnswerTime - currentAnswerTime;
       let currentCorrectAnswer = {

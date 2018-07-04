@@ -31,12 +31,6 @@ export const removeModal = (element) => {
   app.removeChild(element);
 };
 
-export const compareArrays = (arr, arr2) => {
-  let on = 0;
-  for (let i = 0; i < arr.length; i++) {
-    if (arr[i] === arr2[i]) {
-      on++;
-    }
-  }
-  return on === arr.length ? true : false;
+export const compareArrays = (arr1, arr2) => {
+  return arr1.length === arr2.length && arr1.every((item, idx) => item === arr2[idx]);
 };

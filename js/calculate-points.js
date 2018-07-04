@@ -49,10 +49,6 @@ export const anotherTotalResultsArr = [
 ];
 
 export const calculatePoints = (playerAnswers) => {
-  // if (playerAnswers.length < NUMBER_ANSWERS && INITIAL_STATE.lives > 0 || INITIAL_STATE.lives === 0) {
-  //   return -1;
-  // }
-  // const countLives = leftLives >= 0;
   let points = 0;
   playerAnswers.forEach((el) => {
     if (el.correct && el.time >= FAST_TIME_ANSWER) {
